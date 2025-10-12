@@ -11,7 +11,7 @@ class TestBurger:
         assert burger.bun == mock_bun
 
     @pytest.mark.parametrize("ingredient_fixture", ["mock_ingredient_sauce", "mock_ingredient_filling"])
-    def test_add_ingredient_appends_to_list(empty_burger, request, ingredient_fixture):
+    def test_add_ingredient_appends_to_list(self, burger, request, ingredient_fixture):
         ingredient = request.getfixturevalue(ingredient_fixture)
         burger.add_ingredient(ingredient)
         assert burger.ingredients == [ingredient]
@@ -35,7 +35,7 @@ class TestBurger:
             (618, [53, 499, 87], 1875)   # 618*2 + 53 + 499 + 87
         ]
     )
-    def test_get_price_calculates_correct_sum(burger, bun_price, ingredient_prices, expected_total, mock_bun, mock_ingredient_sauce, mock_ingredient_filling):
+    def test_get_price_calculates_correct_sum(self, burger, bun_price, ingredient_prices, expected_total, mock_bun, mock_ingredient_sauce, mock_ingredient_filling):
         # мок для булки
         mock_bun = Mock(spec=Bun)
         mock_bun.get_price.return_value = bun_price
@@ -49,7 +49,7 @@ class TestBurger:
 
         assert burger.get_price() == expected_total
 
-    def test_get_receipt_contains_all_items(mock_bun, mock_ingredient_sauce, mock_ingredient_filling):
+    def test_get_receipt_contains_all_items(self, mock_bun, mock_ingredient_sauce, mock_ingredient_filling):
         burger = Burger()
         burger.set_buns(mock_bun)
         burger.add_ingredient(mock_ingredient_sauce)
